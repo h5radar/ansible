@@ -1,0 +1,24 @@
+#
+# This is the configuration file for ansible-lint
+#
+
+# Options are: min, basic, moderate,safety, shared, production
+profile: min
+
+exclude_paths:
+  - playbooks
+  - roles
+
+skip_list:
+  - jinja
+  - no-free-form
+  - skip_ansible_lint
+  - var-naming
+  - yaml
+  - name
+  - fqcn
+  - risky-file-permissions
+  - no-log-password
+  - ignore-errors
+
+use_default_rules: true
