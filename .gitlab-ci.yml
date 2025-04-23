@@ -3,8 +3,6 @@ stages:
   - lint
   - build
   - test
-  - deploy
-  - adhoc
 
 # Run linters
 lint-ansible:
@@ -12,7 +10,7 @@ lint-ansible:
   tags:
     - linux
   script:
-    - ansible-playbook -v --diff --inventory inventory/development playbooks/run_ansible_linter.yml
+    - ansible-lint ./main.yml ./playbooks/*.yml
 
 # Build artifacts
 build-application:
@@ -28,109 +26,9 @@ build-application:
       - VERSION
 
 # Run tests
-test-a5lab-server:
+test-application:
   stage: test
   tags:
     - linux
   script:
-    - echo Hello from a5lab test
-
-test-gitlab-server:
-  stage: test
-  tags:
-    - linux
-  script:
-    - echo Hello from gitlab test
-
-test-runner-server:
-  stage: test
-  tags:
-    - linux
-  script:
-    - echo Hello from runner test
-
-# Deploy
-deploy-a5lab-server:
-  stage: deploy
-  tags:
-    - linux
-  script:
-    - ansible-galaxy install -r requirements.yml
-    - ansible a5lab_server -v --diff --inventory inventory/production --limit a5lab_server --module-name ping
-    - ansible-playbook -v --diff --inventory inventory/production --limit a5lab_server main.yml
-  only:
-    - main
-  when: manual
-
-deploy-gitlab-server:
-  stage: deploy
-  tags:
-    - linux
-  script:
-    - ansible-galaxy install -r requirements.yml
-    - ansible gitlab_server -v --diff --inventory inventory/production --limit gitlab_server --module-name ping
-    - ansible-playbook -v --diff --inventory inventory/production --limit gitlab_server main.yml
-  only:
-    - main
-  when: manual
-
-deploy-runner-server:
-  stage: deploy
-  tags:
-    - linux
-  script:
-    - ansible-galaxy install -r requirements.yml
-    - ansible runner_server -v --diff --inventory inventory/production --limit runner_server --module-name ping
-    - ansible-playbook -v --diff --inventory inventory/production --limit runner_server main.yml
-  only:
-    - main
-  when: manual
-
-# Adhoc query
-update-all-packages:
-  stage: adhoc
-  tags:
-    - linux
-  script:
-    - ansible-galaxy install -r requirements.yml
-    - ansible runner_server -v --diff --inventory inventory/production --limit runner_server --module-name ping
-    - ansible-playbook -v --diff --inventory inventory/production playbooks/update_all_packages.yml
-  only:
-    - main
-  when: manual
-
-update-gitlab-server:
-  stage: adhoc
-  tags:
-    - linux
-  script:
-    - ansible-galaxy install -r requirements.yml
-    - ansible gitlab_server -v --diff --inventory inventory/production --limit gitlab_server --module-name ping
-    - ansible-playbook -v --diff --inventory inventory/production playbooks/update_gitlab_server.yml
-  only:
-    - main
-  when: manual
-
-backup-gitlab-server:
-  stage: adhoc
-  tags:
-    - linux
-  script:
-    - ansible-galaxy install -r requirements.yml
-    - ansible gitlab_server -v --diff --inventory inventory/production --limit gitlab_server --module-name ping
-    - ansible-playbook -v --diff --inventory inventory/production playbooks/backup_gitlab_server.yml
-  only:
-    - main
-  when: manual
-
-renew-gitlab-server:
-  stage: adhoc
-  tags:
-    - linux
-  script:
-    - ansible-galaxy install -r requirements.yml
-    - ansible gitlab_server -v --diff --inventory inventory/production --limit gitlab_server --module-name ping
-    - ansible-playbook -v --diff --inventory inventory/production playbooks/renew_gitlab_server.yml
-  only:
-    - main
-  when: manual
+    - echo Hello from tests
