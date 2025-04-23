@@ -1,0 +1,27 @@
+#
+# Package (build and test) application
+#
+name: Package application
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Set up NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - name: Install packages
+        shell: bash
+        run: pip install ansible-lint
+      - name: Run ansible lint commands
+        shell: bash
+        run: ansible-lint ./main.yml
