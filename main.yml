@@ -1,0 +1,27 @@
+---
+
+- name: setup all servers
+  hosts: all
+  become: yes
+  become_user: root
+  roles:
+    - role: sysinfo
+
+- name: setup api h5radar servers
+  hosts: api_h5radar_servers
+  become: yes
+  become_user: root
+  roles:
+    #- role: openjdk
+    #- role: maven
+    #- role: apache
+    #- role: h5radar_api
+
+- name: setup app h5radar servers
+  hosts: app_h5radar_servers
+  become: yes
+  become_user: root
+  roles:
+    #- role: js_env
+    #- role: apache
+    #- role: h5radar_app
