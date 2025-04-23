@@ -1,0 +1,12 @@
+# Ignore some files
+.idea
+.cache
+*.retry
+.vagrant/
+
+.terraform/
+.terraform.lock.hcl
+terraform.tokens
+terraform.tfstate.backup
+
+vagrant/*.log

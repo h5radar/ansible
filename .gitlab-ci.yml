@@ -1,0 +1,34 @@
+# Setup stages
+stages:
+  - lint
+  - build
+  - test
+
+# Run linters
+lint-ansible:
+  stage: lint
+  tags:
+    - linux
+  script:
+    - ansible-lint ./main.yml ./playbooks/*.yml
+
+# Build artifacts
+build-application:
+  stage: build
+  tags:
+    - linux
+  script:
+    - git rev-parse HEAD > VERSION
+  artifacts:
+    name: artifacts
+    expire_in: 1 week
+    paths:
+      - VERSION
+
+# Run tests
+test-application:
+  stage: test
+  tags:
+    - linux
+  script:
+    - echo Hello from tests
