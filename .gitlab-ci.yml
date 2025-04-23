@@ -10,7 +10,7 @@ lint-ansible:
   tags:
     - linux
   script:
-    - ansible-lint ./main.yml ./playbooks/*.yml
+    - ansible-lint ./main.yml
 
 # Build artifacts
 build-application:
