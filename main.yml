@@ -12,6 +12,7 @@
   become: yes
   become_user: root
   roles:
+    - role: hello_world
     #- role: openjdk
     #- role: maven
     #- role: apache
@@ -22,6 +23,7 @@
   become: yes
   become_user: root
   roles:
+    - role: hello_world
     #- role: js_env
     #- role: apache
     #- role: h5radar_app

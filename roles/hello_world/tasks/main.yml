@@ -1,0 +1,5 @@
+---
+
+- name: report hello
+  debug:
+    msg: "hello inventory {{ inventory_hostname }} n"
