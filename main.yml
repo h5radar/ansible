@@ -1,13 +1,13 @@
 ---
 
-- name: setup all servers
+- name: Setup all servers
   hosts: all
   become: true
   become_user: root
   roles:
     - role: sysinfo
 
-- name: setup api h5radar servers
+- name: Setup api h5radar servers
   hosts: api_h5radar_servers
   become: true
   become_user: root
@@ -18,7 +18,7 @@
     # - role: apache
     # - role: h5radar_api
 
-- name: setup app h5radar servers
+- name: Setup app h5radar servers
   hosts: app_h5radar_servers
   become: true
   become_user: root

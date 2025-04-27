@@ -6,9 +6,6 @@
 profile: production
 
 exclude_paths:
-  - ro
-
-skip_list:
-  - name
+  - roles/sysinfo
 
 use_default_rules: true
