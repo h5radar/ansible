@@ -1,5 +1,5 @@
 ---
 
-- name: report hello
-  debug:
+- name: Report hello
+  ansible.builtin.debug:
     msg: "hello inventory {{ inventory_hostname }} n"
