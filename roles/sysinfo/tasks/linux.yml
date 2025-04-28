@@ -7,7 +7,7 @@
 
 - name: Output /etc/os-release file
   ansible.builtin.debug:
-    - msg="{{ result.stdout_lines }}"
+    msg: "{{ result.stdout_lines }}"
 
 - name: Cat /etc/hosts file
   ansible.builtin.command: "/bin/cat /etc/hosts"
@@ -16,4 +16,4 @@
 
 - name: Output /etc/hosts file
   ansible.builtin.debug:
-    - msg="{{ result.stdout_lines }}"
+    msg: "{{ result.stdout_lines }}"
