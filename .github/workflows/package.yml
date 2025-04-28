@@ -19,9 +19,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-      - name: Install packages
+      - name: Install pip packages
         shell: bash
-        run: pip install ansible-lint
+        run: pip install -r requirements.txt
       - name: Run ansible lint commands
         shell: bash
         run: ansible-lint ./main.yml
