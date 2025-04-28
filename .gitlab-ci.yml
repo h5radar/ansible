@@ -10,7 +10,6 @@ lint-ansible:
   tags:
     - linux
   script:
-    - pip install -r requirements.txt
     - ansible-lint ./main.yml
 
 # Build artifacts
