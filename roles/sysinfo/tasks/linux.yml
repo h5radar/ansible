@@ -1,15 +1,19 @@
 ---
 
-- name: cat /etc/os-release file
-  shell: "/bin/cat /etc/os-release"
+- name: Cat /etc/os-release file
+  ansible.builtin.command: "/bin/cat /etc/os-release"
   register: result
+  changed_when: false
 
-- name: output /etc/os-release file
-  debug: msg="{{ result.stdout_lines }}"
+- name: Output /etc/os-release file
+  ansible.builtin.debug:
+    msg: "{{ result.stdout_lines }}"
 
-- name: cat /etc/hosts file
-  shell: "/bin/cat /etc/hosts"
+- name: Cat /etc/hosts file
+  ansible.builtin.command: "/bin/cat /etc/hosts"
   register: result
+  changed_when: false
 
-- name: output /etc/hosts file
-  debug: msg="{{ result.stdout_lines }}"
+- name: Output /etc/hosts file
+  ansible.builtin.debug:
+    msg: "{{ result.stdout_lines }}"

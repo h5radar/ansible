@@ -5,7 +5,4 @@
 # Options are: min, basic, moderate,safety, shared, production
 profile: production
 
-exclude_paths:
-  - roles/sysinfo
-
 use_default_rules: true

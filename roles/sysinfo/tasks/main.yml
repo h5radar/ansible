@@ -1,4 +1,4 @@
 ---
 
-- name: import workstation for specific os
-  include_tasks: "{{ ansible_system | lower }}.yml"
+- name: Import workstation for specific os
+  ansible.builtin.include_tasks: "{{ ansible_system | lower }}.yml"
