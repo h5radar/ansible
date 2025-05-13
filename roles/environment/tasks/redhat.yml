@@ -1,0 +1,18 @@
+---
+
+- name: Check os distribution for redhat
+  ansible.builtin.assert:
+    that:
+      - ansible_distribution == "CentOS Stream"
+    fail_msg: "Only CentOS Stream distribution is supported for RedHat family"
+  when:
+    - ansible_os_family == "RedHat"
+
+- name: Check os distribution version for ubuntu
+  ansible.builtin.assert:
+    that:
+      - ansible_distribution_major_version | int  >= 10
+    fail_msg: "Only CentOS Stream distribution 10+ is supported for RedHat family"
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_distribution  == "CentOS Stream"
