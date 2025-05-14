@@ -17,7 +17,7 @@
     - role: openjdk
     - role: maven
     - role: apache
-    - role: h5radar_api
+    # - role: h5radar_api
 
 - name: Setup app h5radar servers
   hosts: app_h5radar_servers
@@ -27,7 +27,7 @@
     - role: firewall
     - role: js_env
     - role: apache
-    - role: h5radar_app
+    # - role: h5radar_app
 
 - name: Setup iam h5radar servers
   hosts: iam_h5radar_servers
@@ -37,4 +37,4 @@
     - role: firewall
     - role: openjdk
     - role: apache
-    - role: h5radar_iam
+    # - role: h5radar_iam
