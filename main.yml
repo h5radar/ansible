@@ -6,16 +6,17 @@
   become_user: root
   roles:
     - role: sysinfo
+    - role: environment
 
 - name: Setup api h5radar servers
   hosts: api_h5radar_servers
   become: true
   become_user: root
   roles:
-    - role: hello_world
-    # - role: openjdk
-    # - role: maven
-    # - role: apache
+    - role: firewall
+    - role: openjdk
+    - role: maven
+    - role: apache
     # - role: h5radar_api
 
 - name: Setup app h5radar servers
@@ -23,7 +24,17 @@
   become: true
   become_user: root
   roles:
-    - role: hello_world
-    # - role: js_env
-    # - role: apache
+    - role: firewall
+    - role: js_env
+    - role: apache
     # - role: h5radar_app
+
+- name: Setup iam h5radar servers
+  hosts: iam_h5radar_servers
+  become: true
+  become_user: root
+  roles:
+    - role: firewall
+    - role: openjdk
+    - role: apache
+    # - role: h5radar_iam

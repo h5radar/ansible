@@ -1,0 +1,53 @@
+---
+
+- name: Install apache packages for certbot
+  ansible.builtin.package:
+    name: "{{ certbot__apache_package_map[ansible_os_family] }}"
+    state: present
+  when:
+    - certbot__web_server == "apache"
+
+- name: Systemctl enable apache
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - "{{ certbot__apache_service_map[ansible_os_family] }}"
+  notify:
+    - restart apache
+  when:
+    - certbot__web_server == "apache"
+
+- name: Install nxinx packages for certbot
+  ansible.builtin.package:
+    name: "{{ certbot__nginx_package_map[ansible_os_family] }}"
+    state: present
+  when:
+    - certbot__web_server == "nginx"
+
+- name: Systemctl enable nginx
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - "{{ certbot__nginx_service_map[ansible_os_family] }}"
+  notify:
+    - restart nginx
+  when:
+    - certbot__web_server == "nginx"
+
+- name: Install certbot packages
+  ansible.builtin.package:
+    name: "{{ certbot__package_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}"
+    state: present
+
+- name: Install certbot certificates
+  shell: >
+    {{ certbot__binary_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }} certonly
+    --webroot --webroot-path /var/www/html --agree-tos --non-interactive -m {{ certbot__mail }} -d {{ item.name }}
+    {{ ['-d'] | product(item.aliases) | map('join', ' ') | join(' ') }}
+  with_items:
+    - "{{ certbot__domains }}"
+  when: item != ""

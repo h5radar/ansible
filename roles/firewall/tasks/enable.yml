@@ -1,0 +1,62 @@
+---
+
+- name: Install firewall packages
+  ansible.builtin.package:
+    name: "{{ firewall__package_map[ansible_os_family] }}"
+    state: present
+
+- name: Systemctl enable firewall
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - "{{ firewall__service_map[ansible_os_family] }}"
+  notify:
+    - restart firewall
+
+- name: Add ufw rules
+  community.general.ufw:
+    rule: "{{ item.rule | default('allow') }}"
+    port: "{{ item.port | default(omit) }}"
+    proto: "{{ item.proto | default('tcp') }}"
+    state: "{{ item.state | default('enabled') }}"
+  with_items:
+    - "{{ firewall__services }}"
+  notify: ufw enable
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Create firewalld services
+  ansible.builtin.template:
+    src: 'etc/firewalld/services/{{ item }}.xml.j2'
+    dest: '/etc/firewalld/services/{{ item }}.xml'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  with_items:
+    - elastic
+    - influxdb
+    - kapacitor
+    - kibana
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Reload firewalld services
+  ansible.builtin.command: "firewall-cmd --reload"
+  register: result
+  changed_when: result.rc != 0
+  when:
+    - ansible_os_family == 'RedHat'
+
+- name: Add firewalld rules for services
+  ansible.posix.firewalld:
+    ansible.builtin.service: "{{ item.service }}"
+    zone: "{{ item.zone | default('public') }}"
+    permanent: "{{ item.permanent | default(true) }}"
+    state: "{{ item.state | default('enabled') }}"
+  with_items:
+    - "{{ firewall__services }}"
+  notify: firewalld complete reload
+  when:
+    - ansible_os_family == 'RedHat'

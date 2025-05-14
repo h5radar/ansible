@@ -1,0 +1,21 @@
+---
+
+- name: Restart firewall
+  ansible.builtin.service:
+    name: "{{ firewall__service_map[ansible_os_family] }}"
+    state: restarted
+
+- name: Enable ufw
+  ansible.builtin.command: ufw -f enable
+  register: result
+  changed_when: result.rc != 0
+
+- name: Reload firewalld
+  ansible.builtin.command: firewall-cmd --reload
+  register: result
+  changed_when: result.rc != 0
+
+- name: Reload firewalld completely
+  ansible.builtin.command: firewall-cmd --complete-reload
+  register: result
+  changed_when: result.rc != 0

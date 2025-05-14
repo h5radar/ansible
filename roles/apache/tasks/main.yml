@@ -1,0 +1,34 @@
+---
+
+- name: Install apache packages
+  ansible.builtin.package:
+    name: "{{ apache__package_map[ansible_os_family] }}"
+    state: present
+
+- name: Enable apache modules for debian
+  ansible.builtin.command: "a2enmod {{ item }}"
+  with_items: "{{ apache__module_map }}"
+  register: result
+  changed_when: result.rc != 0
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Disable default website
+  ansible.builtin.command: "{{ item }}"
+  with_items:
+    - "a2dissite 000-default.conf"
+    - "apache2ctl configtest"
+  register: result
+  changed_when: result.rc != 0
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Systemctl enable apache
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - "{{ apache__service_map[ansible_os_family] }}"
+  notify:
+    - restart apache

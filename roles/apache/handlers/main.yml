@@ -1,0 +1,11 @@
+---
+
+- name: Reload apache
+  ansible.builtin.service:
+    name: "{{ app__apache_service_map[ansible_os_family] }}"
+    state: reloaded
+
+- name: Restart apache
+  ansible.builtin.service:
+    name: "{{ apache__service_map[ansible_os_family] }}"
+    state: restarted
