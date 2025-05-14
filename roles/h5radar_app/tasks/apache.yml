@@ -1,0 +1,41 @@
+---
+
+- name: configure apache sites h5radar_app
+  ansible.builtin.template:
+    src: "etc/httpd/conf.d/app.h5radar.tld.conf.j2"
+    dest: "/etc/{{ h5radar_app__apache_conf_map[ansible_os_family] }}/{{ h5radar_app__domain }}.conf"
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - reload apache
+
+- name: Enable h5radar_app website
+  shell: "{{ item }}"
+  with_items:
+    - "a2ensite {{ h5radar_app__domain }}.conf"
+    - "apache2ctl configtest"
+  when:
+    - ansible_os_family == 'Debian'
+  notify:
+    - reload apache
+
+- name: Create directories for apache
+  file:
+    path: "{{ item }}"
+    owner: "{{ h5radar_app__user }}"
+    group: "{{ h5radar_app__group }}"
+    state: directory
+    mode: "0755"
+  with_items:
+    - "{{ h5radar_app__current_path }}/dist/"
+
+- name: copy apache templates
+  ansible.builtin.template:
+    src: "home/h5radar_app/current/dist/{{ item }}.j2"
+    dest: "{{ h5radar_app__current_path }}/dist/{{ item }}"
+    owner: "{{ item.owner | default('h5radar_app') }}"
+    group: "{{ item.group | default('h5radar_app') }}"
+    mode: "0644"
+  with_items:
+    - "{{ h5radar_app__apache_templates }}"

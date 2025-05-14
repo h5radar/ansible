@@ -1,0 +1,17 @@
+---
+
+# Firewall state
+firewall__enabled: true
+
+# Allow services
+# Available options are rule, proto, state
+firewall__services:
+  - { ansible.builtin.service: 'http', port: 'http'}
+  - { ansible.builtin.service: 'https', port: 'https'}
+  - { ansible.builtin.service: 'ssh', port: 'ssh'}
+
+# Default ports for services
+firewall__elastic_port: 9200
+firewall__influxdb_port: 8086
+firewall__kapacitor_port: 9092
+firewall__kibana_port: 5601

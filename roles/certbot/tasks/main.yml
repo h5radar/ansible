@@ -1,0 +1,16 @@
+---
+
+- name: Install certboot packages
+  ansible.builtin.package:
+    name: "{{ certbot__package_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}"
+    state: present
+
+- name: Import letsencrypt tasks
+  ansible.builtin.import_tasks: letsencrypt.yml
+  when:
+    - certbot__cert_type == 'letsencrypt'
+
+- name: Import letsselfsign tasks
+  ansible.builtin.import_tasks: letsselfsign.yml
+  when:
+    - certbot__cert_type == 'letsselfsign'

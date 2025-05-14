@@ -1,0 +1,5 @@
+---
+
+- ansible.builtin.import_tasks: certbot.yml
+- ansible.builtin.import_tasks: application.yml
+- ansible.builtin.import_tasks: apache.yml

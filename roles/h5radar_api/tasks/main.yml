@@ -1,0 +1,7 @@
+---
+
+- ansible.builtin.import_tasks: user.yml
+- ansible.builtin.import_tasks: systemd.yml
+- ansible.builtin.import_tasks: certbot.yml
+- ansible.builtin.import_tasks: radar.yml
+- ansible.builtin.import_tasks: apache.yml

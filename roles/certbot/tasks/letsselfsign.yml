@@ -1,0 +1,41 @@
+---
+
+- name: Create directories for letsencrypt
+  file:
+    path: "/etc/{{ item.name }}"
+    state: directory
+    mode: "0755"
+  with_items:
+    - "letsencrypt"
+    - "letsencrypt/live"
+    - "letsencrypt/renewal-hooks"
+    - "letsencrypt/renewal-hooks/deploy"
+
+- name: Create directories for domains
+  file:
+    path: "/etc/letsencrypt/live/{{ item.name }}"
+    state: directory
+    mode: "0755"
+  with_items:
+    - "{{ certbot__domains }}"
+  when: item != ""
+
+- name: generate self-signed certificate
+  shell: >
+    openssl req -new -x509 -days 9999 -sha256 -nodes -out /etc/letsencrypt/live/{{ item.name }}/fullchain.pem
+    -keyout /etc/letsencrypt/live/{{ item.name }}/privkey.pem -subj "/C=EN/CN={{ item.name }}"
+  with_items:
+    - "{{ certbot__domains }}"
+  when: item != ""
+
+- name: copy fullchain.pem into chain.pem
+  command: "cp /etc/letsencrypt/live/{{ item.name }}/fullchain.pem /etc/letsencrypt/live/{{ item.name }}/chain.pem"
+  with_items:
+    - "{{ certbot__domains }}"
+  when: item != ""
+
+- name: copy fullchain.pem into cert.pem files
+  command: "cp /etc/letsencrypt/live/{{ item.name }}/fullchain.pem /etc/letsencrypt/live/{{ item.name }}/cert.pem"
+  with_items:
+    - "{{ certbot__domains }}"
+  when: item != ""

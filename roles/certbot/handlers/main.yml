@@ -1,0 +1,16 @@
+---
+
+- name: Restart crond
+  ansible.builtin.service:
+    name:  crond
+    state: restarted
+
+- name: Restart apache
+  ansible.builtin.service:
+    name: "{{ certbot__apache_service_map[ansible_os_family] }}"
+    state: restarted
+
+- name: Restart nginx
+  ansible.builtin.service:
+    name: "{{ certbot__nginx_service_map[ansible_os_family] }}"
+    state: restarted

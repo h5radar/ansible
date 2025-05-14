@@ -1,0 +1,97 @@
+---
+
+- name: Install postgresql packages
+  ansible.builtin.package:
+    name: "{{ postgresql__package_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}"
+    state: present
+
+- name: initdb for pg
+  command: >
+    postgresql-setup initdb
+    creates={{ postgresql__conf_dir_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}/pg_hba.conf
+  when:
+    ansible_os_family == "RedHat"
+
+- name: Systemctl enable postgresql
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - postgresql
+
+- name: configure postgresql.conf
+  lineinfile:
+    path: "{{ postgresql__conf_dir_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}/postgresql.conf"
+    regexp: "{{ item.regex }}"
+    line: "{{ item.value }}"
+  with_items:
+    - "{{ postgresql__conf_options }}"
+  notify:
+    - restart postgresql
+
+- name: configure pg_hba.conf
+  postgresql_pg_hba:
+    dest: "{{ postgresql__conf_dir_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}/pg_hba.conf"
+    contype: "{{ item.contype }}"
+    databases: "{{ item.databases }}"
+    users: "{{ item.users }}"
+    source: "{{ item.source }}"
+    method: "{{ item.method }}"
+    sort_rules: false
+  with_items:
+    - "{{ postgresql__pg_hba }}"
+  notify:
+    - restart postgresql
+
+- name: Restart postgresql
+  meta: flush_handlers
+
+- name: Create postgresql roles
+  become: yes
+  become_user: "{{ postgresql__user }}"
+  postgresql_user:
+    name: "{{ item.name | d(item.role) }}"
+    port: "{{ item.port | d(postgresql__port if postgresql__port else omit) }}"
+    password: "{{ item.password }}"
+    encrypted: "{{ item.encrypted | d(omit) }}"
+    no_password_changes: "{{ item.no_password_changes | d(omit) }}"
+    expires: "{{ item.expires | d(omit) }}"
+    state: "present"
+  with_flattened:
+    - "{{ postgresql__roles }}"
+  when: (((item.name|d() and item.name) or (item.role|d() and item.role)) and
+    (item.state is undefined or item.state != "absent"))
+
+- name: Create postgresql databases
+  become: yes
+  become_user: "{{ postgresql__user }}"
+  postgresql_db:
+    name: "{{ item.name | d(item.database) }}"
+    port: "{{ item.port | d(postgresql__port if postgresql__port else omit) }}"
+    owner: "{{ item.owner | d(omit) }}"
+    ansible.builtin.template: "{{ item.template | d(omit) }}"
+    encoding: "{{ item.encoding | d(omit) }}"
+    lc_collate: "{{ item.lc_collate | d(omit) }}"
+    lc_ctype: "{{ item.lc_ctype | d(omit) }}"
+    state: "present"
+  with_flattened:
+    - "{{ postgresql__databases }}"
+  when: (((item.name|d() and item.name) or (item.database|d() and item.database)) and
+    (item.state is undefined or item.state != "absent"))
+
+- name: grant database privileges to postgresql roles
+  become: yes
+  become_user: "{{ postgresql__user }}"
+  postgresql_user:
+    name: "{{ item.name | d(item.role) }}"
+    port: "{{ item.port | d(postgresql__port if postgresql__port else omit) }}"
+    login_db: "{{ item.login_db }}"
+    priv: "{{ item.priv }}"
+    state: "present"
+  with_flattened:
+    - "{{ postgresql__roles }}"
+  when: (((item.name|d() and item.name) or (item.role|d() and item.role)) and
+    (item.state is undefined or item.state != "absent") and
+    (item.db|d() and item.db) and
+    (item.priv|d() and item.priv))

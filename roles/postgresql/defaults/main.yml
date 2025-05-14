@@ -1,0 +1,34 @@
+---
+
+# Default port number of the PostgreSQL server to use (local or remote).
+postgresql__port: '5432'
+
+# PostgreSQL user account to which Ansible will switch to perform
+# database-related operations. Should be the same on local and remote database
+# servers.
+postgresql__user: 'postgres'
+
+# Default options
+# Value localhost is 127.0.0.1 for IPv4 and ::1 for IPv6
+postgresql__conf_options:
+  - { regex: "(.)*listen_addresses\\s=(.)*", value: "listen_addresses = 'localhost'	# what IP address(es) to listen on;"}
+  - { regex: "(.)*track_activities\\s=(.)*", value: "track_activities = on"}
+  - { regex: "(.)*track_counts\\s=(.)*", value: "track_counts = on"}
+  - { regex: "(.)*track_functions\\s=(.)*", value: "track_functions = all			# none, pl, all"}
+  - { regex: "(.)*track_io_timing\\s=(.)*", value: "track_io_timing = on"}
+
+# Input type is [], example "host all postgresql all md5"
+postgresql__ipv4_pg_hba: []
+
+postgresql__ipv6_pg_hba: []
+
+# List of PostgresSQL roles, specified as YAML dicts. See
+# :ref:`postgresql__ref_roles` for more details.
+postgresql__roles: []
+
+# List of PostgreSQL databases, specified as a YAML dicts, defined by other
+# roles via dependency variables. See :ref:`postgresql__ref_databases` for more
+# details.
+postgresql__databases: []
+
+

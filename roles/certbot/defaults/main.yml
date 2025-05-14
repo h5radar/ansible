@@ -1,0 +1,14 @@
+---
+
+# Cert type: letsencrypt or letsselfsign
+certbot__cert_type: "letsencrypt"
+
+# Hostmaster mail
+certbot__mail: "hostmaster@a5lab.com"
+
+# Domains for certbot: apache or nginx
+certbot__web_server: "apache"
+
+# Domains for certbot
+certbot__domains: []
+

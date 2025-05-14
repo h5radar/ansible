@@ -1,0 +1,11 @@
+---
+
+firewall__package_map:
+  'Debian':
+    - ufw
+  'RedHat':
+    - firewalld
+
+firewall__service_map:
+  'Debian': "ufw"
+  'RedHat': "firewalld"

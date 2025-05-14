@@ -1,0 +1,76 @@
+---
+
+certbot__apache_package_map:
+  'RedHat':
+    - httpd
+    - mod_ssl
+    - httpd-tools
+  'Debian':
+    - apache2
+    - apache2-utils
+
+certbot__apache_service_map:
+  'RedHat': "httpd"
+  'Debian': "apache2"
+
+certbot__nginx_package_map:
+  'RedHat':
+    - nginx
+  'Debian':
+    - nginx
+
+certbot__nginx_service_map:
+  'RedHat': "nginx"
+  'Debian': "nginx"
+
+certbot__package_map:
+  'RedHat':
+    'CentOS':
+      '7':
+        - certbot
+        - curl
+        - openssl
+        - python2-certbot-apache
+      '8':
+        - curl
+        - openssl
+  'Debian':
+    'Ubuntu':
+      '16':
+        - certbot
+        - curl
+        - openssl
+        - python-certbot-apache
+      '18':
+        - certbot
+        - curl
+        - openssl
+        - python-certbot-apache
+      '20':
+        - certbot
+        - curl
+        - openssl
+        - python3-certbot-apache
+      '22':
+        - certbot
+        - curl
+        - openssl
+        - python3-certbot-apache
+      '24':
+        - certbot
+        - curl
+        - openssl
+        - python3-certbot-apache
+
+certbot__binary_map:
+  'RedHat':
+    'CentOS':
+      '7': certbot
+      '8': /usr/local/bin/certbot-auto
+  'Debian':
+    'Ubuntu':
+      '16': certbot
+      '18': certbot
+      '20': certbot
+      '22': certbot
+      '24': certbot
