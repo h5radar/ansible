@@ -1,0 +1,4 @@
+---
+
+- name: Import js_env for specific os
+  ansible.builtin.include_tasks: "{{ ansible_system | lower }}.yml"

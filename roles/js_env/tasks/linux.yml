@@ -1,0 +1,20 @@
+---
+
+- name: Install nodejs repository
+  ansible.builtin.command: "{{ item }}"
+  with_items:
+    - "{{ js_env__repo_map[ansible_os_family] }}"
+  register: result
+  changed_when: result.rc != 0
+
+- name: Install js packages
+  ansible.builtin.package:
+    name: "{{ js_env__package_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}"
+    state: present
+
+- name: Install npm packages
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+  with_items:
+    - "{{ js_env__npm_map }}"
