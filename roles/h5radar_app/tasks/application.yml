@@ -1,0 +1,66 @@
+---
+
+- name: Create directories for application
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ h5radar_app__user }}"
+    group: "{{ h5radar_app__group }}"
+    state: directory
+    mode: "755"
+  with_items:
+    - "{{ h5radar_app__root_path }}/"
+    - "{{ h5radar_app__root_path }}/releases"
+    - "{{ h5radar_app__release_path }}"
+
+- name: Checkout git repository
+  become: true
+  become_user: "{{ h5radar_app__user }}"
+  ansible.builtin.git:
+    repo: 'https://oauth2:{{ gitlab_pat }}@gitlab.a5lab.com/h5radar/app-ui.git'
+    dest: "{{ h5radar_app__release_path }}"
+    version: HEAD
+
+- name: Create build configuration files
+  ansible.builtin.template:
+    src: "home/h5radar_app/releases/timestamp/{{ item }}.j2"
+    dest: "{{ h5radar_app__release_path }}/{{ item }}"
+    owner: "{{ h5radar_app__user | default('h5radar_app') }}"
+    group: "{{ h5radar_app__user | default('h5radar_app') }}"
+    mode: "0644"
+  with_items:
+    - .env
+
+- name: Run react commands
+  become: true
+  become_user: "{{ h5radar_app__user }}"
+  ansible.builtin.shell: "{{ item }}"
+  environment:
+    PATH: "{{ ansible_env.PATH }}"
+  args:
+    executable: /bin/bash
+    chdir: "{{ h5radar_app__release_path }}"
+  with_items:
+    - npm install
+    - npm run build
+  register: result
+  changed_when: result.rc != 0
+
+- name: Create symlink to new release
+  become: true
+  become_user: "{{ h5radar_app__user }}"
+  ansible.builtin.file:
+    src: "{{ h5radar_app__release_path }}"
+    dest: "{{ h5radar_app__current_path }}"
+    state: link
+    force: true
+
+- name: Keep only few last releases
+  ansible.builtin.shell: "set -o pipefail && find ./ -maxdepth 1 |
+          grep -G .............. |
+          sort -r |
+          tail -n +{{ h5radar_app__keep_releases }} |
+          xargs rm -rf"
+  args:
+    chdir: "{{ h5radar_app__root_path }}/releases"
+  register: result
+  changed_when: result.rc != 0

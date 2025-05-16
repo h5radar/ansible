@@ -1,0 +1,34 @@
+---
+
+- name: Create directories for application
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ h5radar_app__user }}"
+    group: "{{ h5radar_app__group }}"
+    state: directory
+    mode: "755"
+  with_items:
+    - "{{ h5radar_app__shared_path }}"
+    - "{{ h5radar_app__shared_path }}/certs"
+
+- name: Create certbot hooks files for app
+  ansible.builtin.template:
+    src: "etc/letsencrypt/renewal-hooks/deploy/{{ item }}.sh.j2"
+    dest: "/etc/letsencrypt/renewal-hooks/deploy/{{ item }}.sh"
+    owner: "root"
+    group: "root"
+    mode: "0770"
+  with_items:
+    - "{{ h5radar_app__letsencrypt_hooks }}"
+
+- name: Execute certbot hooks after install for app
+  ansible.builtin.shell: "/etc/letsencrypt/renewal-hooks/deploy/{{ item }}.sh"
+  environment:
+    RENEWED_DOMAINS: "{{ h5radar_app__domain }}"
+    RENEWED_LINEAGE: "/etc/letsencrypt/live/{{ h5radar_app__domain }}"
+  args:
+    executable: /bin/bash
+  with_items:
+    - "{{ h5radar_app__letsencrypt_hooks }}"
+  register: result
+  changed_when: result.rc != 0
