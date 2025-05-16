@@ -18,7 +18,7 @@
   ansible.builtin.git:
     repo: 'https://oauth2:{{ gitlab_pat }}@gitlab.a5lab.com/h5radar/app-ui.git'
     dest: "{{ h5radar_app__release_path }}"
-    version: HEAD
+    version: v0.0.1
 
 - name: Create build configuration files
   ansible.builtin.template:

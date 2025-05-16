@@ -26,7 +26,7 @@
   ansible.builtin.git:
     repo: 'https://oauth2:{{ gitlab_pat }}@gitlab.a5lab.com/h5radar/radar.git'
     dest: "{{ h5radar_api__release_path }}"
-    version: HEAD
+    version: v0.0.1
 
 - name: Run maven commands
   become: true
