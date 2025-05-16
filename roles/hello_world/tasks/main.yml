@@ -1,5 +1,5 @@
 ---
 
-- name: Report hello
+- name: Flush message
   ansible.builtin.debug:
-    msg: "hello inventory {{ inventory_hostname }} n"
+    msg: "inventory {{ inventory_hostname }} n"

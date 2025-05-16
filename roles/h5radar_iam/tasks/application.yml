@@ -1,0 +1,57 @@
+---
+
+- name: Check if keycloak is downloaded
+  ansible.builtin.stat:
+    path: "/tmp/keycloak-{{ h5radar_iam__keycloak_version }}.tar.gz"
+  register: file
+
+- name: Download keycloak
+  ansible.builtin.get_url:
+    url: "{{ h5radar_iam__keycloak_package }}"
+    dest: "/tmp/keycloak-{{ h5radar_iam__keycloak_version }}.tar.gz"
+    mode: "644"
+  when: not file.stat.exists
+
+- name: Stop services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: stopped
+  with_items:
+    - "{{ h5radar_iam__service_units }}"
+
+- name: Create directories for application
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ h5radar_iam__user }}"
+    group: "{{ h5radar_iam__group }}"
+    state: directory
+    mode: "755"
+  with_items:
+    - "{{ h5radar_iam__root_path }}/"
+    - "{{ h5radar_iam__root_path }}/releases"
+    - "{{ h5radar_iam__release_path }}"
+
+- name: Unarchive keycloak
+  ansible.builtin.unarchive:
+    src: "/tmp/keycloak-{{ h5radar_iam__keycloak_version }}.tar.gz"
+    dest: "{{ h5radar_iam__root_path }}/releases"
+    owner: "{{ h5radar_iam__user }}"
+    group: "{{ h5radar_iam__group }}"
+    remote_src: true
+
+- name: Configure keycloak
+  ansible.builtin.template:
+    src: "home/h5radar_iam/releases/keycloak-version/conf/{{ item }}.j2"
+    dest: "{{ h5radar_iam__release_path }}/conf/{{ item }}"
+    owner: "{{ h5radar_iam__user }}"
+    group: "{{ h5radar_iam__user }}"
+    mode: "0644"
+  with_items:
+    - keycloak.conf
+
+- name: Start services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - "{{ h5radar_iam__service_units }}"

@@ -1,0 +1,28 @@
+---
+
+- name: Install the systemd unit file
+  ansible.builtin.template:
+    src: 'etc/systemd/system/{{ item }}.service.j2'
+    dest: '/etc/systemd/system/{{ item }}.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  with_items:
+    - "{{ h5radar_iam__service_units }}"
+  when:
+    - ansible_service_mgr|d()
+    - ansible_service_mgr in [ "systemd" ]
+
+- name: Register autostart service systemd
+  ansible.builtin.service:
+    name: '{{ item }}'
+    enabled: 'yes'
+  with_items:
+    - "{{ h5radar_iam__service_units }}"
+  when:
+    - ansible_service_mgr|d()
+    - ansible_service_mgr in [ "systemd" ]
+
+- name: Force systemd to reload configs
+  ansible.builtin.systemd:
+    daemon_reload: true

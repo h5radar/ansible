@@ -1,0 +1,7 @@
+---
+
+- name: Add h5radar_radar user to docker group
+  ansible.builtin.user:
+    name: "{{ h5radar_api__user }}"
+    groups: docker
+    append: true

@@ -1,0 +1,10 @@
+---
+
+- name: Install ssl certificates
+  ansible.builtin.import_tasks: certbot.yml
+
+- name: Install application
+  ansible.builtin.import_tasks: application.yml
+
+- name: Configure apache web server
+  ansible.builtin.import_tasks: apache.yml

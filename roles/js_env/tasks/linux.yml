@@ -10,7 +10,7 @@
   changed_when: result.rc != 0
 
 - name: Install js packages
-  ansible.builtin.ansible.builtin.package:
+  ansible.builtin.package:
     name: "{{ js_env__package_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}"
     state: present
 

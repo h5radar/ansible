@@ -1,0 +1,16 @@
+---
+
+- name: Configure user
+  ansible.builtin.import_tasks: user.yml
+
+- name: Configure systemd
+  ansible.builtin.import_tasks: systemd.yml
+
+- name: Install ssl certificates
+  ansible.builtin.import_tasks: certbot.yml
+
+- name: Install radar application
+  ansible.builtin.import_tasks: radar.yml
+
+- name: Configure apache web server
+  ansible.builtin.import_tasks: apache.yml

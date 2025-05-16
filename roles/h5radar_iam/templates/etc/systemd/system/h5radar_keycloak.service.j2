@@ -1,0 +1,19 @@
+[Unit]
+After=network.target local-fs.target postgresql.service
+Description=H5radar iam service based on keycloak
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User={{ h5radar_iam__user }}
+Group={{ h5radar_iam__group }}
+WorkingDirectory={{ h5radar_iam__release_path }}/bin/
+SyslogIdentifier=h5radar-keycloak
+TimeoutSec=5min
+Restart=on-failure
+RestartSec=5s
+SuccessExitStatus=0 143
+ExecStart={{ h5radar_iam__release_path }}/bin/kc.sh start
+
+[Install]
+WantedBy=multi-user.target
