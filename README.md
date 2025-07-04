@@ -1,5 +1,17 @@
 # Ansible
-Ansible installer for h5radar application
+Ansible installer for h5radar application. Demo available at https://app.h5radar.com.
+
+# Release application
+* add release notes file to antora docs
+* update version at antora.yml file
+* run command: export COPYFILE_DISABLE=1 for MacOS
+* run command: mvn release:prepare for java services
+* run command: mvn release:perform for java services
+* archive account service by command: tar -zcvf Binaries.tar.gz account*.jar
+* archive radar service by command: tar -zcvf Binaries.tar.gz radar*.jar
+* archive app-ui by command: tar -zcvf Binaries.tar.gz *
+* setup version at antora.yml file at latest value
+* create and publish the new releases at GitHub
 
 # Requirements
 ## OS
