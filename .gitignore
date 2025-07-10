@@ -2,11 +2,20 @@
 .idea
 .cache
 *.retry
-.vagrant/
-
-.terraform/
-.terraform.lock.hcl
-terraform.tokens
-terraform.tfstate.backup
 
 vagrant/*.log
+/vagrant/.vagrant/
+
+/ansible/external_collections/
+/ansible/external_roles/
+*.retry
+
+/.py-env/
+/.venv/
+/ansible/.venv/
+ansible/collections/external/
+
+*.swp
+
+/tmp/
+/.env
