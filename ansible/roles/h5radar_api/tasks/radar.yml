@@ -59,6 +59,7 @@
           tail -n +{{ h5radar_api__keep_releases }} |
           xargs rm -rf"
   args:
+    executable: /bin/bash
     chdir: "{{ h5radar_api__root_path }}/releases/radar"
   register: result
   changed_when: result.rc != 0
