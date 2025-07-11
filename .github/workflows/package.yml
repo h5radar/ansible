@@ -15,9 +15,9 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4.2.2
-      - name: Install pip packages
+      - name: Lint src
         shell: bash
-        run: pip install -r ansible/requirements.txt
-      - name: Run ansible lint commands
-        shell: bash
-        run: ansible-lint ansible/main.yml
+        run: | 
+          pip install -r ansible/requirements.txt
+          pip list --format=freeze
+          ansible-lint -c ansible/.ansible-lint ansible/main.yml
