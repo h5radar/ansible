@@ -1,0 +1,23 @@
+#
+# Package (build and test) application
+#
+name: Package application
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Install pip packages
+        shell: bash
+        run: pip install -r requirements.txt
+      - name: Run ansible lint commands
+        shell: bash
+        run: ansible-lint ./main.yml
