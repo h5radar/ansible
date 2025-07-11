@@ -18,6 +18,6 @@ jobs:
       - name: Lint src
         shell: bash
         run: | 
-          pip install -r ansible/requirements.txt
-          pip list --format=freeze
+          time pip install -r ansible/requirements.txt --quiet
+          time ansible-galaxy install -r ansible/galaxy_requirements.yml -s "${GALAXY_REPO_URL}"
           ansible-lint -c ansible/.ansible-lint ansible/main.yml
