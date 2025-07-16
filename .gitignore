@@ -3,17 +3,17 @@
 .cache
 *.retry
 
-vagrant/*.log
-/vagrant/.vagrant/
+*.log
+.vagrant/
 
-/ansible/external_collections/
-/ansible/external_roles/
+/collections/external/
+/roles/external/
 *.retry
 
 /.py-env/
 /.venv/
-/ansible/.venv/
-ansible/collections/external/
+.venv/
+collections/external/
 
 *.swp
 
