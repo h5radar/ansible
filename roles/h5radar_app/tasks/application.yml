@@ -22,7 +22,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/h5radar/app-ui.git'
     dest: "{{ h5radar_app__release_path }}"
-    version: v0.1.0
+    version: "{{ h5radar_app__version }}"
 
 - name: Create build configuration files
   ansible.builtin.template:

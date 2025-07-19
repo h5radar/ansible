@@ -1,4 +1,8 @@
 ---
+- name: Install acl packages
+  ansible.builtin.package:
+    name: acl
+    state: present
 
 - name: Stop services
   ansible.builtin.service:
@@ -26,7 +30,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/h5radar/radar.git'
     dest: "{{ h5radar_api__release_path }}"
-    version: v0.0.3
+    version: "{{ h5radar_api__version }}"
 
 - name: Run maven commands
   become: true
@@ -59,8 +63,8 @@
           tail -n +{{ h5radar_api__keep_releases }} |
           xargs rm -rf"
   args:
-    chdir: "{{ h5radar_api__root_path }}/releases/radar"
     executable: /bin/bash
+    chdir: "{{ h5radar_api__root_path }}/releases/radar"
   register: result
   changed_when: result.rc != 0
 

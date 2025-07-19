@@ -1,5 +1,17 @@
 # Ansible
-Ansible installer for h5radar application
+Ansible installer for h5radar application. Demo available at https://app.h5radar.com.
+
+# Release application
+* add release notes file to antora docs
+* update version at antora.yml file
+* run command: export COPYFILE_DISABLE=1 for MacOS
+* run command: mvn release:prepare for java services
+* run command: mvn release:perform for java services
+* archive account service by command: tar -zcvf Binaries.tar.gz account*.jar
+* archive radar service by command: tar -zcvf Binaries.tar.gz radar*.jar
+* archive app-ui by command: tar -zcvf Binaries.tar.gz *
+* setup version at antora.yml file at latest value
+* create and publish the new releases at GitHub
 
 # Requirements
 ## OS
@@ -24,10 +36,12 @@ Ansible installer for h5radar application
 
 # Development
 ```
-# Setup python env
+# Setup apt env
 DEBIAN_FRONTEND=noninteractive
 NEEDRESTART_MODE=l
 sudo apt-get update && sudo apt-get -y install python3-venv
+
+# Setup python env
 python3 -m venv --upgrade-deps .venv && source .venv/bin/activate
 pip install --requirement requirements.txt
 
@@ -35,11 +49,4 @@ pip install --requirement requirements.txt
 export ANSIBLE_CONFIG=ansible.cfg
 ansible-galaxy install -r requirements.yml
 
-# deploy via Vagrant or
-ansible-playbook deploy.yml --ask-become-pass --extra-vars "hostname=somename" [--tags basic]
-
-# deploy via ansible
-ansible-inventory --graph
-time ansible-playbook main.yml
-```
-
+vagrant up

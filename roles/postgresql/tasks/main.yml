@@ -1,4 +1,8 @@
 ---
+- name: Install acl packages
+  ansible.builtin.package:
+    name: acl
+    state: present
 
 - name: Install postgresql packages
   ansible.builtin.package:
@@ -52,7 +56,7 @@
   become_user: "{{ postgresql__user }}"
   postgresql_user:
     name: "{{ item.name | d(item.role) }}"
-    #port: "{{ item.port | d(postgresql__port if postgresql__port else omit) }}"
+    port: "{{ item.port | d(postgresql__port if postgresql__port else omit) }}"
     password: "{{ item.password }}"
     encrypted: "{{ item.encrypted | d(omit) }}"
     no_password_changes: "{{ item.no_password_changes | d(omit) }}"

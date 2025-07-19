@@ -39,7 +39,6 @@ postgresql__package_map:
         - postgresql
         - postgresql-contrib
         - python3-psycopg2
-        - acl
 
 # Pg conf dir location
 postgresql__conf_dir_map:

@@ -7,8 +7,6 @@ dependencies:
         state: "present"
         group: "{{ h5radar_app__group }}"
         system: true
-        nome: "/home/{{ h5radar_app__user }}"
-        createhome: true
         shell: "/bin/bash"
         sshkeys: []
   - role: certbot
