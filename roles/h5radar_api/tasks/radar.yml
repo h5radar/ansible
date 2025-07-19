@@ -1,8 +1,4 @@
 ---
-- name: Install acl packages
-  ansible.builtin.package:
-    name: acl
-    state: present
 
 - name: Stop services
   ansible.builtin.service:

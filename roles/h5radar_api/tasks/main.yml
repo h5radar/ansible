@@ -1,8 +1,5 @@
 ---
 
-- name: Configure user
-  ansible.builtin.import_tasks: user.yml
-
 - name: Configure systemd
   ansible.builtin.import_tasks: systemd.yml
 

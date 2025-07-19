@@ -7,6 +7,5 @@ collections:
     source: https://galaxy.ansible.com
   - name: community.postgresql
     source: https://galaxy.ansible.com
-  # for callback plugin 'profile_tasks'
   - name: ansible.posix
     version: 2.0.0

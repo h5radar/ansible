@@ -36,6 +36,7 @@ postgresql__package_map:
         - postgresql-contrib
         - python3-psycopg2
       '24':
+        - acl
         - postgresql
         - postgresql-contrib
         - python3-psycopg2

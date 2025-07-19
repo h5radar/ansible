@@ -13,6 +13,29 @@ Ansible installer for h5radar application. Demo available at https://app.h5radar
 * setup version at antora.yml file at latest value
 * create and publish the new releases at GitHub
 
+# Setup environment
+## MacOS environment
+* run vagrant by command: vagrant up
+
+## Windows environment
+
+```
+# Setup apt env
+DEBIAN_FRONTEND=noninteractive
+NEEDRESTART_MODE=l
+sudo apt-get update && sudo apt-get -y install python3-venv
+
+# Setup python env
+python3 -m venv --upgrade-deps .venv && source .venv/bin/activate
+pip install --requirement requirements.txt
+
+# Setup ansible env
+export ANSIBLE_CONFIG=ansible.cfg
+ansible-galaxy install -r requirements.yml
+
+vagrant up
+```
+
 # Requirements
 ## OS
 * [ ] Should support ubuntu 24
@@ -33,20 +56,3 @@ Ansible installer for h5radar application. Demo available at https://app.h5radar
 
 ## Database
 * [ ] Should support postgreSQL  
-
-# Development
-```
-# Setup apt env
-DEBIAN_FRONTEND=noninteractive
-NEEDRESTART_MODE=l
-sudo apt-get update && sudo apt-get -y install python3-venv
-
-# Setup python env
-python3 -m venv --upgrade-deps .venv && source .venv/bin/activate
-pip install --requirement requirements.txt
-
-# Setup ansible env
-export ANSIBLE_CONFIG=ansible.cfg
-ansible-galaxy install -r requirements.yml
-
-vagrant up

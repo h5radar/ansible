@@ -1,0 +1,22 @@
+---
+
+# Default package map
+workstation__package_map:
+  'RedHat':
+    'CentOS':
+      '7':
+        - mc
+      '8':
+        - mc
+  'Debian':
+    'Ubuntu':
+      '16':
+        - acl
+      '18':
+        - acl
+      '20':
+        - acl
+      '22':
+        - acl
+      '24':
+        - acl

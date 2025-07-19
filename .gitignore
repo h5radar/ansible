@@ -4,11 +4,12 @@
 *.retry
 .vagrant/
 
+collections_external/
+
 .terraform/
 .terraform.lock.hcl
 terraform.tokens
 terraform.tfstate.backup
 
-collections_external/
 vagrant/*.log
 .venv/
