@@ -10,7 +10,7 @@
     owner: "{{ h5radar_app__user }}"
     group: "{{ h5radar_app__group }}"
     state: directory
-    mode: "775"
+    mode: "755"
   with_items:
     - "{{ h5radar_app__root_path }}/"
     - "{{ h5radar_app__root_path }}/releases"
