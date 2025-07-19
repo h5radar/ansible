@@ -2,14 +2,17 @@
 .idea
 .cache
 *.retry
-.vagrant/
+.venv/
 
+# Ansible files
 collections_external/
 
+# Terra files
 .terraform/
 .terraform.lock.hcl
 terraform.tokens
 terraform.tfstate.backup
 
+# Vagrant files
+.vagrant/
 vagrant/*.log
-.venv/
