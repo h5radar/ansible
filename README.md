@@ -5,28 +5,16 @@ Ansible installer for h5radar application. Demo available at https://app.h5radar
 There are a few way to install application. The main difference related to SSL 
 certification: self signed, let's encrypt or external files.
 
-# Self signed certificates
+## Self signed certificates
 * copy inventory/development/ files to inventory/production
 * edit inventory/production/hosts to setup IPs
 * run command ansible-playbook -v --diff --inventory inventory/production main.yml
 
-# Lets encrypt certificates
+## Lets encrypt certificates
 * TODO: about public IP and DNS configuration
 * copy inventory/development/ files to inventory/production
 * edit inventory/production/hosts to setup IPs
 * run command ansible-playbook -v --diff --inventory inventory/production main.yml
-
-# Release application
-* add release notes file to antora docs
-* update version at antora.yml file
-* run command: export COPYFILE_DISABLE=1 for MacOS
-* run command: mvn release:prepare for java services
-* run command: mvn release:perform for java services
-* archive account service by command: tar -zcvf Binaries.tar.gz account*.jar
-* archive radar service by command: tar -zcvf Binaries.tar.gz radar*.jar
-* archive app-ui by command: tar -zcvf Binaries.tar.gz *
-* setup version at antora.yml file at latest value
-* create and publish the new releases at GitHub
 
 # Setup environment
 ## MacOS environment
@@ -42,6 +30,18 @@ certification: self signed, let's encrypt or external files.
 * install pip packages by command: pip install --requirement requirements.txt
 * install ansible requirements by command: ansible-galaxy install -r requirements.yml
 * run vagrant by command: vagrant up
+
+# Release application
+* add release notes file to antora docs
+* update version at antora.yml file
+* run command: export COPYFILE_DISABLE=1 for MacOS
+* run command: mvn release:prepare for java services
+* run command: mvn release:perform for java services
+* archive account service by command: tar -zcvf Binaries.tar.gz account*.jar
+* archive radar service by command: tar -zcvf Binaries.tar.gz radar*.jar
+* archive app-ui by command: tar -zcvf Binaries.tar.gz *
+* setup version at antora.yml file at latest value
+* create and publish the new releases at GitHub
 
 # Requirements
 ## OS
