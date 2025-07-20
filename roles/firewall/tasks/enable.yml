@@ -13,7 +13,7 @@
   with_items:
     - "{{ firewall__service_map[ansible_os_family] }}"
   notify:
-    - restart firewall
+    - Restart firewall
 
 - name: Add ufw rules
   community.general.ufw:
@@ -23,7 +23,7 @@
     state: "{{ item.state | default('enabled') }}"
   with_items:
     - "{{ firewall__services }}"
-  notify: ufw enable
+  notify: Enable ufw
   when:
     - ansible_os_family == 'Debian'
 
@@ -40,7 +40,7 @@
     - kapacitor
     - kibana
   when:
-    - ansible_os_family == 'Debian'
+    - ansible_os_family == 'RedHat'
 
 - name: Reload firewalld services
   ansible.builtin.command: "firewall-cmd --reload"
@@ -57,6 +57,6 @@
     state: "{{ item.state | default('enabled') }}"
   with_items:
     - "{{ firewall__services }}"
-  notify: firewalld complete reload
+  notify: Reload firewalld completely
   when:
     - ansible_os_family == 'RedHat'

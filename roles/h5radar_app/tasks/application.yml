@@ -1,4 +1,8 @@
 ---
+- name: Install acl packages
+  ansible.builtin.package:
+    name: acl
+    state: present
 
 - name: Create directories for application
   ansible.builtin.file:
@@ -16,9 +20,9 @@
   become: true
   become_user: "{{ h5radar_app__user }}"
   ansible.builtin.git:
-    repo: 'https://oauth2:{{ gitlab_pat }}@gitlab.a5lab.com/h5radar/app-ui.git'
+    repo: 'https://github.com/h5radar/app-ui.git'
     dest: "{{ h5radar_app__release_path }}"
-    version: v0.0.1
+    version: "{{ h5radar_app__version }}"
 
 - name: Create build configuration files
   ansible.builtin.template:

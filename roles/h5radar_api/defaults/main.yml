@@ -36,7 +36,7 @@ h5radar_api__smtp_user_password: '{{ lookup("env", "support_mail_password") or "
 #
 h5radar_api__user: "h5radar_api"
 h5radar_api__group: "h5radar_api"
-h5radar_api__version: "0.3.0-SNAPSHOT"
+h5radar_api__version: "v0.0.3"
 h5radar_api__root_path: '/home/{{ h5radar_api__user }}'
 h5radar_api__shared_path: "{{ h5radar_api__root_path }}/shared"
 h5radar_api__current_path: "{{ h5radar_api__root_path }}/current"

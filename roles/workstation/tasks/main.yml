@@ -1,0 +1,12 @@
+---
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  ansible.builtin.apt:
+    update_cache: true
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Install workstation packages
+  ansible.builtin.package:
+    name: "{{ workstation__package_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}"
+    state: present

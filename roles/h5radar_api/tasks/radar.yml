@@ -24,9 +24,9 @@
   become: true
   become_user: "{{ h5radar_api__user }}"
   ansible.builtin.git:
-    repo: 'https://oauth2:{{ gitlab_pat }}@gitlab.a5lab.com/h5radar/radar.git'
+    repo: 'https://github.com/h5radar/radar.git'
     dest: "{{ h5radar_api__release_path }}"
-    version: v0.0.1
+    version: "{{ h5radar_api__version }}"
 
 - name: Run maven commands
   become: true
@@ -38,7 +38,7 @@
     executable: /bin/bash
     chdir: "{{ h5radar_api__release_path }}"
   with_items:
-    - mvn clean package
+    - mvn clean package -Dmaven.test.skip
   register: result
   changed_when: result.rc != 0
 

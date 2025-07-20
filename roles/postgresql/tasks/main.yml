@@ -1,5 +1,4 @@
 ---
-
 - name: Install postgresql packages
   ansible.builtin.package:
     name: "{{ postgresql__package_map[ansible_os_family][ansible_distribution][ansible_distribution_major_version] }}"
@@ -28,7 +27,7 @@
   with_items:
     - "{{ postgresql__conf_options }}"
   notify:
-    - restart postgresql
+    - Restart postgresql
 
 - name: configure pg_hba.conf
   postgresql_pg_hba:
@@ -42,7 +41,7 @@
   with_items:
     - "{{ postgresql__pg_hba }}"
   notify:
-    - restart postgresql
+    - Restart postgresql
 
 - name: Restart postgresql
   meta: flush_handlers

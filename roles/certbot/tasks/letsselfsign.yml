@@ -2,7 +2,7 @@
 
 - name: Create directories for letsencrypt
   file:
-    path: "/etc/{{ item.name }}"
+    path: "/etc/{{ item }}"
     state: directory
     mode: "0755"
   with_items:
