@@ -39,6 +39,13 @@ There are a few ways to install the application. The main difference relates to 
    ansible-playbook -v --diff --inventory inventory/production main.yml
    ```
 
+## Resources
+
+- [Website](https://www.h5radar.com)
+- [Documentation](https://docs.h5radar.com)
+- [Live Demo](https://app.h5radar.com)
+- [Blog](https://blog.h5radar.com)
+
 ## Contributing
 
 Contributions and issues are welcome. Please open pull requests or issues in this repository. For general discussions, roadmap input, and questions, please join our [organization Discussions](https://github.com/orgs/h5radar/discussions). We appreciate community involvement in shaping H5Radar!
