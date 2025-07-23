@@ -41,7 +41,7 @@
 
 - name: Configure keycloak
   ansible.builtin.template:
-    src: "home/h5radar_iam/releases/keycloak-version/conf/{{ item }}.j2"
+    src: "home/h5radar_iam/releases/version/conf/{{ item }}.j2"
     dest: "{{ h5radar_iam__release_path }}/conf/{{ item }}"
     owner: "{{ h5radar_iam__user }}"
     group: "{{ h5radar_iam__user }}"
