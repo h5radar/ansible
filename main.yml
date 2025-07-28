@@ -16,7 +16,6 @@
   roles:
     - role: firewall
     - role: openjdk
-    - role: maven
     - role: apache
     - role: h5radar_api
 
