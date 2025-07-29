@@ -1,29 +1,22 @@
 Vagrant.configure("2") do |config|
 
   config.vm.define "api1.h5radar.com" do |ubuntu|
-    ubuntu.vm.box = "bento/ubuntu-24.04"
-    # ubuntu.vm.box = "perk/ubuntu-22.10-arm64"
+    ubuntu.vm.box = "cloud-image/ubuntu-24.04"
     ubuntu.vm.provider :libvirt do |lv|
       lv.title = 'h5radar-api'
     end
   end
   config.vm.define "app1.h5radar.com" do |ubuntu|
-    ubuntu.vm.box = "bento/ubuntu-24.04"
-    # ubuntu.vm.box = "perk/ubuntu-22.10-arm64"
+    ubuntu.vm.box = "cloud-image/ubuntu-24.04"
     ubuntu.vm.provider :libvirt do |lv|
       lv.title = 'h5radar-app'
     end
   end
   config.vm.define "iam1.h5radar.com" do |ubuntu|
-    ubuntu.vm.box = "bento/ubuntu-24.04"
-    # ubuntu.vm.box = "perk/ubuntu-22.10-arm64"
+    ubuntu.vm.box = "cloud-image/ubuntu-24.04"
     ubuntu.vm.provider :libvirt do |lv|
       lv.title = 'h5radar-iam'
     end
-  end
-
-  config.vm.provider :qemu do |qe|
-    qe.cpus = 2
   end
 
   config.vm.provider :libvirt do |lv|
