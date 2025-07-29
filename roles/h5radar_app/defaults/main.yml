@@ -18,6 +18,7 @@ h5radar_app__yandex_metrika: '{{ lookup("env", "yandex_metrika") or "99576263" }
 h5radar_app__user: "h5radar_app"
 h5radar_app__group: "h5radar_app"
 h5radar_app__version: "v0.1.0"
+h5radar_app__binaries: "https://github.com/h5radar/app-ui/releases/download/{{ h5radar_app__version }}/Binaries.tar.gz"
 h5radar_app__root_path: '/home/{{ h5radar_app__user }}'
 h5radar_app__shared_path: "{{ h5radar_app__root_path }}/shared"
 h5radar_app__current_path: "{{ h5radar_app__root_path }}/current"

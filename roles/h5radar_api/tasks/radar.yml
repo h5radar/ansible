@@ -18,29 +18,13 @@
     - "{{ h5radar_api__root_path }}/"
     - "{{ h5radar_api__root_path }}/releases"
     - "{{ h5radar_api__root_path }}/releases/radar"
-    - "{{ h5radar_api__release_path }}"
+    - "{{ h5radar_api__release_path }}/target"
 
-- name: Checkout git repository
-  become: true
-  become_user: "{{ h5radar_api__user }}"
-  ansible.builtin.git:
-    repo: 'https://github.com/h5radar/radar.git'
-    dest: "{{ h5radar_api__release_path }}"
-    version: "{{ h5radar_api__version }}"
-
-- name: Run maven commands
-  become: true
-  become_user: "{{ h5radar_api__user }}"
-  ansible.builtin.shell: "{{ item }}"
-  environment:
-    PATH: "{{ ansible_env.PATH }}"
-  args:
-    executable: /bin/bash
-    chdir: "{{ h5radar_api__release_path }}"
-  with_items:
-    - mvn clean package -Dmaven.test.skip
-  register: result
-  changed_when: result.rc != 0
+- name: Get binaries
+  ansible.builtin.unarchive:
+    src: "{{ h5radar_api__binaries }}"
+    dest: "{{ h5radar_api__release_path }}/target"
+    remote_src: yes
 
 - name: Create configuration files
   ansible.builtin.template:
@@ -51,18 +35,6 @@
     mode: "0644"
   with_items:
     - application.yml
-
-- name: Keep only few last releases
-  ansible.builtin.shell: "set -o pipefail && find ./ -maxdepth 1 |
-          grep -G .............. |
-          sort -r |
-          tail -n +{{ h5radar_api__keep_releases }} |
-          xargs rm -rf"
-  args:
-    executable: /bin/bash
-    chdir: "{{ h5radar_api__root_path }}/releases/radar"
-  register: result
-  changed_when: result.rc != 0
 
 - name: Start services
   ansible.builtin.service:
