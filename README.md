@@ -56,7 +56,12 @@ H5Radar Ansible Installer is licensed under the MIT License.
 
 # Setup environment
 ## MacOS environment
-* run vagrant by command: vagrant up
+* install qemu by command: brew install qemu
+* install vagrant by command: brew install --cask vagrant
+* install qemu plugin by command: vagrant plugin install vagrant-qemu
+* run vagrant by command: vagrant up --provider=qemu
+* vagrant ssh
+
 
 ## Linux environment
 * export variables by command: export DEBIAN_FRONTEND=noninteractive 
