@@ -2,18 +2,21 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "api1.h5radar.com" do |ubuntu|
     ubuntu.vm.box = "cloud-image/ubuntu-24.04"
+    # ubuntu.vm.network :forwarded_port, guest: 22, host: 50022
     ubuntu.vm.provider :libvirt do |lv|
       lv.title = 'h5radar-api'
     end
   end
   config.vm.define "app1.h5radar.com" do |ubuntu|
     ubuntu.vm.box = "cloud-image/ubuntu-24.04"
+    # ubuntu.vm.network :forwarded_port, guest: 22, host: 50023
     ubuntu.vm.provider :libvirt do |lv|
       lv.title = 'h5radar-app'
     end
   end
   config.vm.define "iam1.h5radar.com" do |ubuntu|
     ubuntu.vm.box = "cloud-image/ubuntu-24.04"
+    # ubuntu.vm.network :forwarded_port, guest: 22, host: 50024
     ubuntu.vm.provider :libvirt do |lv|
       lv.title = 'h5radar-iam'
     end

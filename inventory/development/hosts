@@ -4,6 +4,9 @@ api1.h5radar.com ansible_host=192.168.100.2 image=ubuntu24
 [app_h5radar_servers]
 app1.h5radar.com ansible_host=192.168.100.2 image=ubuntu24
 
+[iam_h5radar_servers]
+iam1.h5radar.com ansible_host=192.168.100.2 image=ubuntu24
+
 [all:children]
 api_h5radar_servers
 app_h5radar_servers
