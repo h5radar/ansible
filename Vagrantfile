@@ -36,11 +36,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.config_file = "ansible.cfg"
     ansible.playbook = "main.yml"
-    ansible.host_vars = {
-      "api1.h5radar.com" => {"image" => "ubuntu24" },
-      "app1.h5radar.com" => {"image" => "ubuntu24" },
-      "iam1.h5radar.com" => {"image" => "ubuntu24" }
-    }
     ansible.groups = {
       "api_h5radar_servers" => ["api1.h5radar.com"],
       "api_h5radar_servers:vars" => {"h5radar_api__cert_type" => 'letsselfsign'},
