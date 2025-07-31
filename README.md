@@ -80,7 +80,7 @@ H5Radar Ansible Installer is licensed under the MIT License.
 * run command: mvn release:perform for java services
 * archive account service by command: tar -zcvf Binaries.tar.gz account*.jar
 * archive radar service by command: tar -zcvf Binaries.tar.gz radar*.jar
-* archive app-ui by command: tar -zcvf Binaries.tar.gz *
+* archive app by command: tar -zcvf Binaries.tar.gz *
 * setup version at antora.yml file at latest value
 * create and publish the new releases at GitHub
 

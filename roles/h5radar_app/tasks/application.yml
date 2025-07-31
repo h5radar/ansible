@@ -20,7 +20,7 @@
   become: true
   become_user: "{{ h5radar_app__user }}"
   ansible.builtin.git:
-    repo: 'https://github.com/h5radar/app-ui.git'
+    repo: 'https://github.com/h5radar/app.git'
     dest: "{{ h5radar_app__release_path }}"
     version: "{{ h5radar_app__version }}"
 
