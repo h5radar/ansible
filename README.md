@@ -7,9 +7,10 @@ H5Radar application consists of several modules. For an overview of the entire p
 ## Features
 
 - Automated deployment of H5Radar web UI and backend services
-- Configuration of SSL certificates (self-signed or Let's Encrypt)
-- Support for reverse proxy setup (Nginx or Apache)
 - Customizable inventory and environment parameters for flexible deployments
+- Configuration of SSL certificates (self-signed or Let's Encrypt via HTTP verification)
+- Support for reverse proxy setup (Nginx or Apache)
+- Built-in Keycloak deployment or integration with an external Keycloak instance
 
 ## How to install application
 
@@ -54,53 +55,6 @@ Contributions and issues are welcome. Please open pull requests or issues in thi
 
 H5Radar Ansible Installer is licensed under the MIT License.
 
-# Setup environment
-## MacOS environment
-* install qemu by command: brew install qemu
-* install vagrant by command: brew install --cask vagrant
-* install qemu plugin by command: vagrant plugin install vagrant-qemu
-* run vagrant by command: vagrant up --provider=qemu
+# Appendix 1: Useful commands
 
-## Linux environment
-* export variables by command: export DEBIAN_FRONTEND=noninteractive 
-* export variables by command: export NEEDRESTART_MODE=l
-* export variables by command: export ANSIBLE_CONFIG=ansible.cfg
-* update apt by command: sudo apt-get update
-* install virtual env by command: sudo apt-get -y install python3-venv
-* setup python env by command: python3 -m venv --upgrade-deps .venv && source .venv/bin/activate
-* install pip packages by command: pip install --requirement requirements.txt
-* install ansible requirements by command: ansible-galaxy install -r requirements.yml
-* run vagrant by command: vagrant up
-
-# Release application
-* add release notes file to antora docs
-* update version at antora.yml file
-* run command: export COPYFILE_DISABLE=1 for MacOS
-* run command: mvn release:prepare for java services
-* run command: mvn release:perform for java services
-* archive account service by command: tar -zcvf Binaries.tar.gz account*.jar
-* archive radar service by command: tar -zcvf Binaries.tar.gz radar*.jar
-* archive app by command: tar -zcvf Binaries.tar.gz *
-* setup version at antora.yml file at latest value
-* create and publish the new releases at GitHub
-
-# Requirements
-## OS
-* [ ] Should support ubuntu 24
-
-## SSL
-* [ ] Should work with self signed certificates
-* [ ] Should work with letsencrypted certificats (verify by http)
-* [ ] Should work with letsencrypted certificats (verify by dns)
-
-## Webserver
-* [ ] Should work without proxy webserver  
-* [ ] Should support apache2 with proxy 
-* [ ] Should support nxinx with proxy* 
-
-## Keycloak
-* [ ] Should work without pre-installed keycloak  
-* [ ] Should work with self installed keycloak 
-
-## Database
-* [ ] Should support postgreSQL  
+- run linter by command: ansible-lint ./main.yml
